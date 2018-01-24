@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="机器学习,集成学习," />
+  <meta name="keywords" content="机器学习,sklearn," />
 
 
 
@@ -79,23 +79,18 @@
 
 
 
-<meta name="description" content="综述集成学习(ensemble learning通过构建并结合多个学习器来完成学习任务，有时也被称为多分类器系统、基于委员会的学习等。根据个体学习器的生成方式，目前的集成学习方法大致可分为两大类，即个体学习器间存在强依赖关系、必须串行生成的序列化方法，以及个体学习器间不存在强依赖关系、可同时生成的并行化方法；前者的代表是Boosting,后者的代表是Bagging和随机森林。">
-<meta name="keywords" content="机器学习,集成学习">
+<meta name="description" content="Stochastic Gradient Descent(随机梯度下降)Stochastic Gradient Descent(SGD) 是一种简单但非常有效的方法，用于在诸如（线性）支持向量机和逻辑回归之类的凸损失函数下的线性分类器的辨别学习。 SGD已成功应用于文本分类和自然语言处理中经常遇到的大规模和稀疏机器学习问题。">
+<meta name="keywords" content="机器学习,sklearn">
 <meta property="og:type" content="article">
-<meta property="og:title" content="集成学习总揽">
-<meta property="og:url" content="http://yoursite.com/2017/12/25/集成学习/index.html">
+<meta property="og:title" content="Stochastic Gradient Descent">
+<meta property="og:url" content="http://yoursite.com/2018/01/22/StochasticGradientDescent/index.html">
 <meta property="og:site_name" content="Wei Si Blog :)">
-<meta property="og:description" content="综述集成学习(ensemble learning通过构建并结合多个学习器来完成学习任务，有时也被称为多分类器系统、基于委员会的学习等。根据个体学习器的生成方式，目前的集成学习方法大致可分为两大类，即个体学习器间存在强依赖关系、必须串行生成的序列化方法，以及个体学习器间不存在强依赖关系、可同时生成的并行化方法；前者的代表是Boosting,后者的代表是Bagging和随机森林。">
+<meta property="og:description" content="Stochastic Gradient Descent(随机梯度下降)Stochastic Gradient Descent(SGD) 是一种简单但非常有效的方法，用于在诸如（线性）支持向量机和逻辑回归之类的凸损失函数下的线性分类器的辨别学习。 SGD已成功应用于文本分类和自然语言处理中经常遇到的大规模和稀疏机器学习问题。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/images/AdaBoost.png">
-<meta property="og:image" content="http://yoursite.com/images/BoostingTree.png">
-<meta property="og:image" content="http://yoursite.com/images/GBDT.png">
-<meta property="og:image" content="http://yoursite.com/images/Bagging.png">
-<meta property="og:updated_time" content="2017-12-26T05:25:55.562Z">
+<meta property="og:updated_time" content="2018-01-24T13:59:57.198Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="集成学习总揽">
-<meta name="twitter:description" content="综述集成学习(ensemble learning通过构建并结合多个学习器来完成学习任务，有时也被称为多分类器系统、基于委员会的学习等。根据个体学习器的生成方式，目前的集成学习方法大致可分为两大类，即个体学习器间存在强依赖关系、必须串行生成的序列化方法，以及个体学习器间不存在强依赖关系、可同时生成的并行化方法；前者的代表是Boosting,后者的代表是Bagging和随机森林。">
-<meta name="twitter:image" content="http://yoursite.com/images/AdaBoost.png">
+<meta name="twitter:title" content="Stochastic Gradient Descent">
+<meta name="twitter:description" content="Stochastic Gradient Descent(随机梯度下降)Stochastic Gradient Descent(SGD) 是一种简单但非常有效的方法，用于在诸如（线性）支持向量机和逻辑回归之类的凸损失函数下的线性分类器的辨别学习。 SGD已成功应用于文本分类和自然语言处理中经常遇到的大规模和稀疏机器学习问题。">
 
 
 
@@ -125,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/12/25/集成学习/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/22/StochasticGradientDescent/"/>
 
 
 
 
 
-  <title>集成学习总揽 | Wei Si Blog :)</title>
+  <title>Stochastic Gradient Descent | Wei Si Blog :)</title>
   
 
 
@@ -268,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/25/集成学习/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/22/StochasticGradientDescent/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Feng weisi">
@@ -285,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">集成学习总揽</h1>
+          <h1 class="post-title" itemprop="name headline">Stochastic Gradient Descent</h1>
         
 
         <div class="post-meta">
@@ -297,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-25T13:36:24+08:00">
-                2017-12-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-22T13:22:01+08:00">
+                2018-01-22
               </time>
             
 
@@ -357,20 +352,47 @@
       
 
       
-        <h1 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h1><p>集成学习(ensemble learning通过构建并结合多个学习器来完成学习任务，有时也被称为多分类器系统、基于委员会的学习等。<br>根据个体学习器的生成方式，目前的集成学习方法大致可分为两大类，即个体学习器间存在强依赖关系、必须串行生成的序列化方法，以及个体学习器间不存在强依赖关系、可同时生成的并行化方法；前者的代表是Boosting,后者的代表是Bagging和随机森林。</p>
+        <h1 id="Stochastic-Gradient-Descent-随机梯度下降"><a href="#Stochastic-Gradient-Descent-随机梯度下降" class="headerlink" title="Stochastic Gradient Descent(随机梯度下降)"></a>Stochastic Gradient Descent(随机梯度下降)</h1><p><strong>Stochastic Gradient Descent(SGD)</strong> 是一种简单但非常有效的方法，用于在诸如（线性）支持向量机和逻辑回归之类的凸损失函数下的线性分类器的辨别学习。 <strong>SGD</strong>已成功应用于文本分类和自然语言处理中经常遇到的大规模和稀疏机器学习问题。</p>
 <a id="more"></a>
-<h1 id="串行化方法"><a href="#串行化方法" class="headerlink" title="串行化方法"></a>串行化方法</h1><h2 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h2><p>Boosting是一族可将弱学习器提升为强学习器的算法。这族算法的工作机制类似：先从初始训练集训练出一个基学习器，再根据基学习器的表现对训练样本分布进行调整，使得先前基学习器做错的样本在后续受到更多关注，然后基于调整后的样本分布来训练下一个基学习器；如此重复进行，直至基学习器数目达到事先指定的值T，最终将这T个基学习器进行加权结合。（对无法接受带权样本的基学习算法，即可通过“重采样法”来处理，即在每一轮学习中，根据样本分布对训练集重新进行采样，再用重采样而得的样本集对基学习器进行训练）<br><strong>从偏差-方差分解的角度看，Boosting主要关注降低偏差，因此Boosting能基于泛化性能相当弱的学习器构建出很强的集成。</strong></p>
+<p>随机梯度下降的优点是：</p>
 <ul>
-<li><h3 id="AdaBoost"><a href="#AdaBoost" class="headerlink" title="AdaBoost"></a>AdaBoost</h3><p><img src="/images/AdaBoost.png" alt="Adaboost算法"><br>上图是Adaboost的算法图。它还有另外一个解释，即可以认为AdaBoost算法是模型为加法模型、损失函数为指数函数、学习算法为前向分步算法时的二类分类学习方法。AdaBoost的训练误差是以指数速率下降的。</p>
-</li>
-<li><h3 id="提升树-BoostingTree"><a href="#提升树-BoostingTree" class="headerlink" title="提升树-BoostingTree"></a>提升树-BoostingTree</h3><p>提升方法实际采用加法模型（即基函数的线性组合）与前向分步算法，以决策树为基函数的提升方法称为提升树。针对不同问题的提升树算法，其主要区别在于使用的损失函数不同。包括用平方误差损失函数的回归问题，用指数损失函数的分类问题，以及用一般损失函数的一般决策问题。对于二类分类为题，提升树算法只需将AdaBoost算法的基本分类器限制为二类分类树即可，可以说这时的提升树算法时AdaBoost算法的特殊情况。下图是回归问题的提升树算法。<br><img src="/images/BoostingTree.png" alt="BoostingTree算法"></p>
-</li>
-<li><h3 id="梯度提升决策树-GBDT"><a href="#梯度提升决策树-GBDT" class="headerlink" title="梯度提升决策树-GBDT"></a>梯度提升决策树-GBDT</h3><p>提升树利用加法模型与前向分步算法实现学习的优化过程。当损失函数是平方损失和指数损失函数是，每一步优化是很简单的。但对于一般损失函数而言，往往每一步优化并不容易。针对这一问题，Freidman提出了梯度提升算法。这是利用最速下降法的近似方法，其关键是利用损失函数的负梯度在当前模型的值作为回归问题提升树算法中的残差的近似值，拟合一个回归树。<br><img src="/images/GBDT.png" alt="GBDT算法"></p>
-</li>
+<li>高效</li>
+<li>易于实现（很多机会进行代码调优） </li>
 </ul>
-<h1 id="并行化方法"><a href="#并行化方法" class="headerlink" title="并行化方法"></a>并行化方法</h1><h2 id="Bagging"><a href="#Bagging" class="headerlink" title="Bagging"></a>Bagging</h2><p>给定包含m个样本的数据集，通过自助采样法采样出T个含m个训练样本的采样集，然后基于每个采样集训练出一个基学习器，再将这些基学习器进行结合。这就是Bagging的基本流程。在对预测输出进行结合时，Bagging通常对分类任务使用简单投票法，对回归任务使用简单平均法。<br><strong>从偏差-方差分解的角度看，Bagging主要关注降低方差，因此它在不剪枝决策树、神级网络等易受样本扰动的学习器上效用更为明显。</strong><br>算法描述如下图所示<br><img src="/images/Bagging.png" alt="Bagging算法"></p>
-<h2 id="随机森林-RF"><a href="#随机森林-RF" class="headerlink" title="随机森林-RF"></a>随机森林-RF</h2><p>随机森林是Bagging的一个扩展变体。RF在以决策树为基学习器构建Bagging集成的基础上，进一步在决策树的训练过程中引入了随机属性选择。具体来说，传统决策树在选择划分属性时实在当前节点的属性集合中选择一个最优属性；而在RF中，对基决策树的每个结点，先从该节点的属性集合中随机选择一个包含k个属性的子集，然后再从这个子集中选择一个最优属性用于划分。这里的参数k控制了随机性的引入程度。</p>
-
+<p>随机梯度下降的缺点是：</p>
+<ul>
+<li><strong>SGD</strong>需要一些 <strong>hyperparameters</strong>(超参数)，如 <strong>regularization parameter</strong>(正则化参数)和迭代次数</li>
+<li><strong>SGD</strong>对特征缩放敏感</li>
+</ul>
+<h2 id="Classification-分类"><a href="#Classification-分类" class="headerlink" title="Classification(分类)"></a>Classification(分类)</h2><p><strong>SGDClassifier</strong> 类实现了一个简单的随机梯度下降学习程序，支持不同的 <strong>loss functions</strong> (损失函数)和 <strong>penalties for classification</strong> (分类处罚)。比如 <em>clf=SGDClassifier(loss=”hinge”, penalty=”l2”)</em></p>
+<ul>
+<li><strong>函数fit(X, y)</strong> ：模型拟合数据——必须拟合两个 <strong>array</strong> :保存训练样本的 <strong>size[n_samples,n_features]</strong> 的 <strong>array X</strong> 以及保存训练样本的目标值（类标签）的 <strong>size[n_sample]</strong> 的 <strong>array y</strong> </li>
+<li><strong>函数predict(test_X)</strong> ：模型预测新数据</li>
+<li><strong>函数predict_proba(test_X)</strong> :给出每个样本的概率估计P(y|x),仅限 <strong>loss=log、modified_huber</strong></li>
+<li><strong>成员coef_</strong> :模型参数</li>
+<li><strong>成员intercept_</strong> : 模型截距</li>
+</ul>
+<p>具体的 <strong>loss function</strong> （损失函数）可以通过 <strong>loss parameter</strong> (损失参数)设定。 <strong>SGDClassifier</strong>支持以下损失函数：</p>
+<ul>
+<li>loss=”hinge”:(soft-margin)linear Support Vector Machine(线性支持向量机)</li>
+<li>loss=”modified_huber”:smoothed hinge loss(平滑的hinge损失)</li>
+<li>loss=”log”:logistic regression(逻辑回归)</li>
+<li>and all regression losses below(所有的回归损失)</li>
+</ul>
+<p>具体的 <strong>penalty</strong> （惩罚）可以通过 <strong>penalty parameter</strong> (惩罚参数)设定。 <strong>SGD</strong>支持一下惩罚：</p>
+<ul>
+<li>penalty=”l2”:L2 norm penalty</li>
+<li>penalty=”l1”:L1 norm penalty</li>
+<li>penalty=”elasticnet”:Convex combination of L2 and L1 = (1-l1_ratio) <em>  L2+l1_ratio </em> L1</li>
+</ul>
+<p>默认设置为penalty=”l2”。L1惩罚获得sparse solutions(稀疏解)，将大多数系数降到零。在存在高度相关的属性的情况下， <strong>Elastic Net</strong> (弹性网)解决了L1惩罚的一些缺陷。参数l1_ratio控制L1和L2惩罚的凸组合。</p>
+<h2 id="Regression-回归"><a href="#Regression-回归" class="headerlink" title="Regression(回归)"></a>Regression(回归)</h2><p><strong>SGDRegressor</strong>类实现了一个简单的随机梯度下降学习程序，支持不同的损失函数和惩罚，以适应线性回归模型。 <strong>SGDRegressor</strong>非常适合大量培训样本的回归问题。<br><strong>SGDRegressor</strong>支持以下损失函数：</p>
+<ul>
+<li>loss=”squared_loss”:Ordinary least squares</li>
+<li>loss=”huber”:Huber loss for robust regression</li>
+<li>loss=”epsilon_insensitive”:linear Support Vector Regression</li>
+</ul>
+<h2 id="Complexity-复杂度"><a href="#Complexity-复杂度" class="headerlink" title="Complexity(复杂度)"></a>Complexity(复杂度)</h2>
       
     </div>
     
@@ -389,7 +411,7 @@
           
             <a href="/tags/机器学习/" rel="tag"><i class="fa fa-tag"></i> 机器学习</a>
           
-            <a href="/tags/集成学习/" rel="tag"><i class="fa fa-tag"></i> 集成学习</a>
+            <a href="/tags/sklearn/" rel="tag"><i class="fa fa-tag"></i> sklearn</a>
           
         </div>
       
@@ -402,8 +424,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/22/First/" rel="next" title="First">
-                <i class="fa fa-chevron-left"></i> First
+              <a href="/2018/01/22/sklearn/" rel="next" title="sklearn">
+                <i class="fa fa-chevron-left"></i> sklearn
               </a>
             
           </div>
@@ -412,8 +434,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/26/决策树/" rel="prev" title="决策树">
-                决策树 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/01/24/面试要点/" rel="prev" title="面试要点">
+                面试要点 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -550,7 +572,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#综述"><span class="nav-number">1.</span> <span class="nav-text">综述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#串行化方法"><span class="nav-number">2.</span> <span class="nav-text">串行化方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Boosting"><span class="nav-number">2.1.</span> <span class="nav-text">Boosting</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AdaBoost"><span class="nav-number">2.1.1.</span> <span class="nav-text">AdaBoost</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提升树-BoostingTree"><span class="nav-number">2.1.2.</span> <span class="nav-text">提升树-BoostingTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#梯度提升决策树-GBDT"><span class="nav-number">2.1.3.</span> <span class="nav-text">梯度提升决策树-GBDT</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#并行化方法"><span class="nav-number">3.</span> <span class="nav-text">并行化方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Bagging"><span class="nav-number">3.1.</span> <span class="nav-text">Bagging</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#随机森林-RF"><span class="nav-number">3.2.</span> <span class="nav-text">随机森林-RF</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Stochastic-Gradient-Descent-随机梯度下降"><span class="nav-number">1.</span> <span class="nav-text">Stochastic Gradient Descent(随机梯度下降)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Classification-分类"><span class="nav-number">1.1.</span> <span class="nav-text">Classification(分类)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Regression-回归"><span class="nav-number">1.2.</span> <span class="nav-text">Regression(回归)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Complexity-复杂度"><span class="nav-number">1.3.</span> <span class="nav-text">Complexity(复杂度)</span></a></li></ol></li></ol></div>
             
 
           </div>
