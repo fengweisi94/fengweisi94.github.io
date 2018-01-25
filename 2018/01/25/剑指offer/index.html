@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="loss损失函数是用来度量预测错误的程度。损失函数值越小，模型就越好。下列列举的是学习sklearn中遇到的损失函数。">
+<meta name="description" content="剑指Offer_编程题  这里主要写的是剑指Offer中编程题的思路和代码，每天更新。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sklearn_loss">
-<meta property="og:url" content="http://yoursite.com/2018/01/24/sklearn-loss/index.html">
+<meta property="og:title" content="剑指offer">
+<meta property="og:url" content="http://yoursite.com/2018/01/25/剑指offer/index.html">
 <meta property="og:site_name" content="Wei Si Blog :)">
-<meta property="og:description" content="loss损失函数是用来度量预测错误的程度。损失函数值越小，模型就越好。下列列举的是学习sklearn中遇到的损失函数。">
+<meta property="og:description" content="剑指Offer_编程题  这里主要写的是剑指Offer中编程题的思路和代码，每天更新。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-25T00:23:36.536Z">
+<meta property="og:updated_time" content="2018-01-25T06:14:15.041Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="sklearn_loss">
-<meta name="twitter:description" content="loss损失函数是用来度量预测错误的程度。损失函数值越小，模型就越好。下列列举的是学习sklearn中遇到的损失函数。">
+<meta name="twitter:title" content="剑指offer">
+<meta name="twitter:description" content="剑指Offer_编程题  这里主要写的是剑指Offer中编程题的思路和代码，每天更新。">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/24/sklearn-loss/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/25/剑指offer/"/>
 
 
 
 
 
-  <title>sklearn_loss | Wei Si Blog :)</title>
+  <title>剑指offer | Wei Si Blog :)</title>
   
 
 
@@ -262,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/24/sklearn-loss/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/25/剑指offer/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Feng weisi">
@@ -279,7 +279,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">sklearn_loss</h1>
+          <h1 class="post-title" itemprop="name headline">剑指offer</h1>
         
 
         <div class="post-meta">
@@ -291,8 +291,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-24T21:57:51+08:00">
-                2018-01-24
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-25T10:30:06+08:00">
+                2018-01-25
               </time>
             
 
@@ -329,14 +329,16 @@
       
 
       
-        <h1 id="loss"><a href="#loss" class="headerlink" title="loss"></a>loss</h1><p>损失函数是用来度量预测错误的程度。损失函数值越小，模型就越好。<br>下列列举的是学习sklearn中遇到的损失函数。<br><a id="more"></a></p>
-<h2 id="hinge"><a href="#hinge" class="headerlink" title="hinge"></a>hinge</h2><p>合页损失函数</p>
-<ul>
-<li>1.实现了软间隔最大化，是0-1损失函数的上界。</li>
-<li>2.保持了支持向量机解的稀疏性</li>
-</ul>
-<p><strong>正是应为HingeLoss的零区域对应的正是非支持向量的普通样本，从而所有的普通样本都不参与最终超平面的决定，这才是支持向量机最大的优势所在，对训练样本数目的依赖大大减少，而且提高了训练项目。（来源于知乎）</strong></p>
-<p>关于svm等价于正则化的合页损失函数的最小化问题证明参考《统计学习方法》第七章</p>
+        <div class="note default"><h2 id="剑指Offer-编程题"><a href="#剑指Offer-编程题" class="headerlink" title="剑指Offer_编程题"></a>剑指Offer_编程题</h2></div>
+
+这里主要写的是剑指Offer中编程题的思路和代码，每天更新。
+
+<a id="more"></a>
+
+<div class="note info"><h3 id="二维数组中的查找"><a href="#二维数组中的查找" class="headerlink" title="二维数组中的查找"></a>二维数组中的查找</h3></div>
+<p><strong>题目描述：</strong> 在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。<br><strong>解题思路：</strong> 从矩阵右上角向左下角查找。如果当前节点&gt;目标值，说明当前节点所在列都大于目标值，则节点左移一列。如果当前节点&lt;目标值，说明当前节点所在行都小于目标值，则节点下移一行。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">Find</span><span class="params">(<span class="keyword">int</span> target, <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; <span class="built_in">array</span>)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = <span class="built_in">array</span>.size();</span><br><span class="line">        <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">int</span> m = <span class="built_in">array</span>[<span class="number">0</span>].size();</span><br><span class="line">        <span class="keyword">if</span> (m == <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> j = m - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> ((i &lt; n) &amp;&amp; (j &gt;= <span class="number">0</span>))&#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">array</span>[i][j] == target)&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">array</span>[i][j] &gt; target)&#123;</span><br><span class="line">                j--;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<div class="note info"><h3 id="替换空格"><a href="#替换空格" class="headerlink" title="替换空格"></a>替换空格</h3></div>
+<p><strong>题目描述：</strong> 请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。<br><strong>解题思路：</strong> 考虑空间原因，在原有字符串数组上进行修改。考虑时间原因，先计算出空格数量，求得结果字符串的长度，然后从后向前扫描字符串，这样每个字符只会移动一次。<br><strong>注意点:</strong> 1.str指向的是一个字符数组char[length]。 2.char s[5]=”ab”;strlen(s)=2;说明s[2-4]=’\0’。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">replaceSpace</span><span class="params">(<span class="keyword">char</span> *str,<span class="keyword">int</span> length)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (str == <span class="literal">NULL</span> &amp;&amp; length &lt;= <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">int</span> strLength = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> newLength = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(str[strLength] != <span class="string">'\0'</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span> (str[strLength] == <span class="string">' '</span>)</span><br><span class="line">                newLength += <span class="number">2</span>;</span><br><span class="line">            strLength++;</span><br><span class="line">            newLength++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (newLength &gt; length)</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        str[newLength]=<span class="string">'\0'</span>;<span class="comment">//在本地电脑上没有错误，但是网上提交末尾多了一个空格，所以把最后一位设为结束符</span></span><br><span class="line">        <span class="keyword">while</span>(strLength &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            strLength--;</span><br><span class="line">            <span class="keyword">if</span> (str[strLength] == <span class="string">' '</span>)&#123;</span><br><span class="line">                str[--newLength] = <span class="string">'0'</span>;</span><br><span class="line">                str[--newLength] = <span class="string">'2'</span>;</span><br><span class="line">                str[--newLength] = <span class="string">'%'</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                str[--newLength] = str[strLength];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -361,8 +363,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/24/面试要点/" rel="next" title="面试要点">
-                <i class="fa fa-chevron-left"></i> 面试要点
+              <a href="/2018/01/25/CS231n/" rel="next" title="CS231n">
+                <i class="fa fa-chevron-left"></i> CS231n
               </a>
             
           </div>
@@ -370,10 +372,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/25/CS231n/" rel="prev" title="CS231n">
-                CS231n <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -509,7 +507,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#loss"><span class="nav-number">1.</span> <span class="nav-text">loss</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#hinge"><span class="nav-number">1.1.</span> <span class="nav-text">hinge</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#剑指Offer-编程题"><span class="nav-number">1.</span> <span class="nav-text">剑指Offer_编程题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#二维数组中的查找"><span class="nav-number">1.1.</span> <span class="nav-text">二维数组中的查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#替换空格"><span class="nav-number">1.2.</span> <span class="nav-text">替换空格</span></a></li></ol></li></ol></div>
             
 
           </div>
