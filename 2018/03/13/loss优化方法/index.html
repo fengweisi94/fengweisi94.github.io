@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Introduction本文主要介绍常见的loss优化方法,从简单到复杂,从一阶到二阶。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="loss优化方法">
+<meta property="og:url" content="http://yoursite.com/2018/03/13/loss优化方法/index.html">
+<meta property="og:site_name" content="Wei Si Blog :)">
+<meta property="og:description" content="Introduction本文主要介绍常见的loss优化方法,从简单到复杂,从一阶到二阶。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/loss_Momentum.png">
+<meta property="og:image" content="http://yoursite.com/images/loss_Nesterov.png">
+<meta property="og:image" content="http://yoursite.com/images/loss_Adagrad.png">
+<meta property="og:image" content="http://yoursite.com/images/loss_Adadelta.png">
+<meta property="og:image" content="http://yoursite.com/images/loss_RMSprop.png">
+<meta property="og:image" content="http://yoursite.com/images/loss_Adam.png">
+<meta property="og:image" content="http://yoursite.com/images/loss_surface.gif">
+<meta property="og:image" content="http://yoursite.com/images/loss_saddle.gif">
+<meta property="og:image" content="http://yoursite.com/images/loss_Newton.png">
+<meta property="og:image" content="http://yoursite.com/images/loss_Newton.gif">
+<meta property="og:updated_time" content="2018-03-20T08:15:38.786Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="loss优化方法">
+<meta name="twitter:description" content="Introduction本文主要介绍常见的loss优化方法,从简单到复杂,从一阶到二阶。">
+<meta name="twitter:image" content="http://yoursite.com/images/loss_Momentum.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/13/loss优化方法/"/>
+
+
+
+
+
+  <title>loss优化方法 | Wei Si Blog :)</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wei Si Blog :)</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不困于心，不乱于情，不念过去，不畏将来</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/13/loss优化方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Feng weisi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/cat.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wei Si Blog :)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">loss优化方法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-13T10:37:50+08:00">
+                2018-03-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>本文主要介绍常见的loss优化方法,从简单到复杂,从一阶到二阶。<br><a id="more"></a></p>
+<h2 id="1-SGD"><a href="#1-SGD" class="headerlink" title="1.SGD"></a>1.SGD</h2><p>缺点：（正因为有这些缺点才发展出后续的各种算法</p>
+<ul>
+<li>选择合适的learning rate比较困难<br>-对所有的参数更新使用同样的learning rate。对于稀疏数据或者特征，有时我们可能想更新快一些对于不经常出现的特征，对于常出现的特征更新慢一些，这时候SGD就不太能满足要求了。</li>
+<li>SGD容易收敛到局部最优，并且在某些情况下可能被困在鞍点。   </li>
+</ul>
+<p><strong>批梯度下降（Batch Gradient Descent)</strong><br>$$\theta = \theta - \eta · \nabla_{\theta}J(\theta)$$<br><strong>优点：</strong> 全数据的梯度平均值能够更好的代表样本总体<br><strong>缺点：</strong> 由于每进行一次参数更新需要计算整体训练数据的梯度，批梯度下降会变得很慢并且遇到内存吃不下数据就挂了。无法支持模型的在线更新。   </p>
+<p><strong>随机梯度下降（Stochastic Gradient Descent)</strong><br>$$\theta = \theta - \eta · \nabla_{\theta}J(\theta;x^{(i)};y^{(i)})$$<br><strong>优点：</strong> 随机梯度下降速度快并且能够在线学习<br><strong>缺点：</strong> 频繁的执行更新所伴随的高方差会导致目标函数剧烈波动，并且很难收敛到确切的极小值   </p>
+<p><strong>Mini-batch gradient descent</strong><br>Mini-batch gradient descent吸收了上述两个算法的长处，利用小批量训练样例执行一次更新。<br>$$\theta = \theta - \eta · \nabla_{\theta}J(\theta;x^{(i:i+m)};y^{(i:i+n)})$$<br><strong>优点：</strong> </p>
+<ol>
+<li>每次处理多个样本，将这种梯度计算和更新的操作采用向量式操作，计算更快</li>
+<li>内存利用率高</li>
+<li>每次只利用小样本集合代替全体样本，收敛更快   </li>
+</ol>
+<p><strong>坏处：</strong> 样本子集并不能很正确的代表样本总体。所以对于目前的大数据训练，一般batch_size的选取原则就是在内存的限制下越大越好，越大子集越能代表样本整体。一般选取32，64，128，256这几种参数。</p>
+<h2 id="2-Momentum"><a href="#2-Momentum" class="headerlink" title="2.Momentum"></a>2.Momentum</h2><p>Momentum是模拟物理里动量的概念，积累之前的动量来替代真正的梯度。公式如下：<br><img src="/images/loss_Momentum.png" alt="Momentum"><br><strong>特点：</strong></p>
+<ul>
+<li>下降初期时，使用上一次参数更新，下降方式一致，乘上较大的$\mu$能够进行很好的加速</li>
+<li>下降中后期，在局部最小值来回震荡的时候，$gradient-&gt;0,\mu$使得更新幅度增大，跳出陷阱。</li>
+<li>在梯度改变方向的时候，$\mu$能够减少更新</li>
+</ul>
+<p>总而言之，Momentum项能够在相关方向加速SGD,抑制震荡，从而加快收敛</p>
+<h2 id="3-Nesterov"><a href="#3-Nesterov" class="headerlink" title="3.Nesterov"></a>3.Nesterov</h2><p>Nesterov项在梯度更新时做一个校正，避免前进太快，同时提高灵敏度。细节如下：<br><img src="/images/loss_Nesterov.png" alt="nesterov"><br>其实，Momentum和Nesterov项都是为了使梯度更新更加灵活，对不同情况有针对性。但是，人工设置一些学习率总还是有些生硬。   </p>
+<p>下面是几种自适应学习率的方法</p>
+<h2 id="4-Adagrad"><a href="#4-Adagrad" class="headerlink" title="4.Adagrad"></a>4.Adagrad</h2><p>Adagrad其实是对学习率进行了一个约束。即:<br><img src="/images/loss_Adagrad.png" alt="Adagrad"><br>此处，对$g_t$从1到t进行一个递推形成一个约束项regularizer,$\epsilon$用来保证分母非0<br><strong>特点：</strong></p>
+<ul>
+<li>前期$g_t$较小的时候，regularizer较大，能够放大梯度</li>
+<li>后期$g_t$较大的时候，regularizer较小，能够约束梯度</li>
+<li>适合处理稀疏梯度<br><strong>缺点：</strong></li>
+<li>有公式可以看出，仍依赖于人工设置一个全局学习率</li>
+<li>$\eta$设置过大的话，会使regularizer过于敏感，对梯度的调节太大</li>
+<li>中后期，分母上梯度平方的累加将会越来越大，使gradient-&gt;0,使得训练提前结束</li>
+</ul>
+<h2 id="5-Adadelta"><a href="#5-Adadelta" class="headerlink" title="5.Adadelta"></a>5.Adadelta</h2><p>Adadelta是对Adagrad的扩展，最初方案依然是对学习率进行自适应约束，但是进行了计算上的简化。<br>Adagrad会累加之前所有的梯度平方，而Adadelta只会累加固定大小的项，并且也不直接存储这些项，仅仅是近似计算对应的平均值。即：<br><img src="/images/loss_Adadelta.png" alt="Adadelta"><br>在此处Adadelta其实还是依赖于全局学习率的，但是作者做了一定处理，经过近似牛顿迭代法之后，就可以不用依赖于全局学习率了。（表示数学渣，此处不懂）<br><strong>特点：</strong></p>
+<ul>
+<li>训练初中期，加速效果不错，很快</li>
+<li>训练后期，反复在局部最小值附近抖动</li>
+</ul>
+<h2 id="6-RMSprop"><a href="#6-RMSprop" class="headerlink" title="6.RMSprop"></a>6.RMSprop</h2><p>RMSprop可以算作Adadelta的特例，是比例为0.5的情况，此时就变成了求梯度平方的平均数，公式为：<br><img src="/images/loss_RMSprop.png" alt="RMSprop"><br><strong>特点：</strong></p>
+<ul>
+<li>其实RMSprop依然依赖于全局学习率</li>
+<li>RMSprop算是Adagrad的一种发展，和Adadelta的变体，效果趋于二者之间</li>
+<li>适合处理非平稳目标（对于RNN效果很好）</li>
+</ul>
+<h2 id="7-Adam"><a href="#7-Adam" class="headerlink" title="7.Adam"></a>7.Adam</h2><p>Adam(Adaptive Moment Estimation)本质上是带有动量项的RMSprop,它利用梯度的一阶矩（均值）估计和二阶矩（偏方差）估计动态调整每个参数的学习率。Adam的优点主要在于经过偏置校正后，每一次迭代学习率都有个确定范围，使得参数比较平稳。公式如下：<br><img src="/images/loss_Adam.png" alt="Adam"><br>其中，$m_t,n_t$分别是对梯度的一阶矩估计和二阶矩估计，可以看作对期望$E|g_t|,E|g_t^2|$的估计；$\hat{m_t},\hat{n_t}$分别是对$m_t,n_t$的校正，这样可以近似为对期望的无偏估计。可以看出对梯度的矩估计对内存没有额外的要求，而且可以根据梯度进行动态调整，最后对学习率形成了一个动态约束，而且有明确范围。（不懂。。。）<br><strong>特点：</strong></p>
+<ul>
+<li>结合了Adagrad善于处理稀疏梯度和RMSprop善于处理非平稳目标的优点</li>
+<li>对内存需求小</li>
+<li>为不同的参数计算不同的自适应学习率</li>
+<li>也适用于大多非凸优化，适用于大数据集和高维空间</li>
+</ul>
+<h2 id="经验之谈"><a href="#经验之谈" class="headerlink" title="经验之谈"></a>经验之谈</h2><ul>
+<li>对于稀疏数据，尽量使用学习率可自适应的优化方法，不用手动调节，而且最好采用默认值</li>
+<li>SGD通常训练时间更长，但是在好的初始化和学习率调度方案的情况下，结果更可靠</li>
+<li>如果在意更快的收敛，并且需要训练较深较复杂的网络时，推荐使用学习率自适应的优化方法</li>
+<li>Adadelta,RMSprop,Adam是比较相近的算法，在相似的情况下表现差不多</li>
+<li>在想使用带动量的RMSprop或者Adam的地方，大多可以使用Nadam(类似于带有Nesterov动量项的Adam)取得更好的效果</li>
+</ul>
+<p>损失表面轮廓上算法表现<br><img src="/images/loss_surface.gif" alt="loss_surface"><br>鞍点上算法表现<br><img src="/images/loss_saddle.gif" alt="loss_saddle"></p>
+<p><br><br><strong>上述知识来源于下面文章：</strong><br><a href="https://zhuanlan.zhihu.com/p/22252270" target="_blank" rel="noopener">ycszen-深度学习最全优化方法总结比较</a><br><a href="http://blog.csdn.net/chenzhi1992/article/details/52850759" target="_blank" rel="noopener">各种梯度优化算法介绍</a></p>
+<p><hr></p>
+<h2 id="二阶算法"><a href="#二阶算法" class="headerlink" title="二阶算法"></a>二阶算法</h2><p>牛顿法和拟牛顿法也是求解无约束最优化问题的常用方法，有收敛速度快的优点。牛顿法是迭代算法，每一步需要求解目标函数的海赛矩阵的逆矩阵，计算比较复杂。拟牛顿法通过正定矩阵近似海赛矩阵的逆矩阵或海赛矩阵，简化了这一计算过程</p>
+<h2 id="牛顿法"><a href="#牛顿法" class="headerlink" title="牛顿法"></a>牛顿法</h2><p>假设f(x)具有二阶连续偏导数，若第k次迭代值为$x^k$,则可将f(x)在$x^k$附近进行二阶泰勒展开：<br>$$f(x)=f(x^k)+g_k^T(x-x^k)+\frac{1}{2}{(x-x^k)}^TH(x^k)(x-x^k)$$<br>这里，$g_k = g(x^k)=\nabla f(x^k)$是f(x)的梯度向量在点x^k的值。H(x)是f(x)的海赛矩阵。<br>函数f(x)有极值的必要条件是$\nabla f(x)=0$<br>所以将上式公式两边再求导<br>$$\nabla f(x) = g_k + H_k(x-x^k)$$<br>假设$\nabla f(x^{k+1})=0$，则上式变为<br>$$g_k+H_k(x^{k+1}-x^k)=0$$<br>所以$x^{k+1}=x^k-H_k^{-1}g_k$<br><img src="/images/loss_Newton.png" alt="牛顿法"><br><img src="/images/loss_Newton.gif" alt="牛顿法图"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/03/过拟合/" rel="next" title="过拟合">
+                <i class="fa fa-chevron-left"></i> 过拟合
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/18/梯度消失和爆炸/" rel="prev" title="梯度消失和爆炸">
+                梯度消失和爆炸 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/cat.JPG"
+                alt="Feng weisi" />
+            
+              <p class="site-author-name" itemprop="name">Feng weisi</p>
+              <p class="site-description motion-element" itemprop="description">谦以待人，虚以待物</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-SGD"><span class="nav-number">2.</span> <span class="nav-text">1.SGD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Momentum"><span class="nav-number">3.</span> <span class="nav-text">2.Momentum</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Nesterov"><span class="nav-number">4.</span> <span class="nav-text">3.Nesterov</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Adagrad"><span class="nav-number">5.</span> <span class="nav-text">4.Adagrad</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Adadelta"><span class="nav-number">6.</span> <span class="nav-text">5.Adadelta</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-RMSprop"><span class="nav-number">7.</span> <span class="nav-text">6.RMSprop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-Adam"><span class="nav-number">8.</span> <span class="nav-text">7.Adam</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#经验之谈"><span class="nav-number">9.</span> <span class="nav-text">经验之谈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二阶算法"><span class="nav-number">10.</span> <span class="nav-text">二阶算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#牛顿法"><span class="nav-number">11.</span> <span class="nav-text">牛顿法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feng weisi</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
