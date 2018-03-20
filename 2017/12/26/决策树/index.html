@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机器学习,决策树," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="综述决策树是一种基本的分类与回归方法。决策树学习通常包括3个步骤：特征选择、决策树的生成和决策树的剪枝。决策树学习本质上是从训练数据集中归纳出一组分类规则。从另一个角度看，决策树学习是由训练数据集估计条件概率模型。决策树学习的损失函数通常是正则化的极大似然函数，深浅不同的决策树对应着不同复杂度的概率模型。">
+<meta name="keywords" content="机器学习,决策树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="决策树">
+<meta property="og:url" content="http://yoursite.com/2017/12/26/决策树/index.html">
+<meta property="og:site_name" content="Wei Si Blog :)">
+<meta property="og:description" content="综述决策树是一种基本的分类与回归方法。决策树学习通常包括3个步骤：特征选择、决策树的生成和决策树的剪枝。决策树学习本质上是从训练数据集中归纳出一组分类规则。从另一个角度看，决策树学习是由训练数据集估计条件概率模型。决策树学习的损失函数通常是正则化的极大似然函数，深浅不同的决策树对应着不同复杂度的概率模型。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/DecisionTree.png">
+<meta property="og:image" content="http://yoursite.com/images/treefeatureselect.png">
+<meta property="og:image" content="http://yoursite.com/images/RegressionTree.png">
+<meta property="og:image" content="http://yoursite.com/images/ClassificationTree.png">
+<meta property="og:image" content="http://yoursite.com/images/treeloss.png">
+<meta property="og:image" content="http://yoursite.com/images/treemissdata.png">
+<meta property="og:image" content="http://yoursite.com/images/boostingtree_regress.png">
+<meta property="og:image" content="http://yoursite.com/images/GBDT.png">
+<meta property="og:updated_time" content="2018-03-14T03:33:58.240Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="决策树">
+<meta name="twitter:description" content="综述决策树是一种基本的分类与回归方法。决策树学习通常包括3个步骤：特征选择、决策树的生成和决策树的剪枝。决策树学习本质上是从训练数据集中归纳出一组分类规则。从另一个角度看，决策树学习是由训练数据集估计条件概率模型。决策树学习的损失函数通常是正则化的极大似然函数，深浅不同的决策树对应着不同复杂度的概率模型。">
+<meta name="twitter:image" content="http://yoursite.com/images/DecisionTree.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/26/决策树/"/>
+
+
+
+
+
+  <title>决策树 | Wei Si Blog :)</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wei Si Blog :)</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不困于心，不乱于情，不念过去，不畏将来</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/决策树/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Feng weisi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/cat.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wei Si Blog :)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">决策树</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T14:03:27+08:00">
+                2017-12-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/机器学习/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="综述"><a href="#综述" class="headerlink" title="综述"></a>综述</h2><p>决策树是一种基本的分类与回归方法。决策树学习通常包括3个步骤：特征选择、决策树的生成和决策树的剪枝。决策树学习本质上是从训练数据集中归纳出一组分类规则。从另一个角度看，决策树学习是由训练数据集估计条件概率模型。决策树学习的损失函数通常是正则化的极大似然函数，深浅不同的决策树对应着不同复杂度的概率模型。<br><a id="more"></a></p>
+<h3 id="一-决策树算法"><a href="#一-决策树算法" class="headerlink" title="一.决策树算法"></a>一.决策树算法</h3><p>决策树学习的算法通常是一个递归地选择最优特征 <strong>(通常使用信息增益最大、信息增益比最大或基尼指数最小作为特征选择的准则）</strong>，并根据该特征对训练数据进行分割，使得对各个子数据集有一个最好的分类的过程。这一过程对应着对特征空间的划分，也对应着决策树的构建。<br><img src="/images/DecisionTree.png" alt="DecisionTree算法"></p>
+<h4 id="特征选择准则"><a href="#特征选择准则" class="headerlink" title="特征选择准则"></a>特征选择准则</h4><p><img src="/images/treefeatureselect.png" alt="特征选择准则"><br>熵和基尼指数表示随机变量不确定性的度量，数值越大，随机变量的不确定性就越大。<br>信息增益表示得知特征X的信息而使得类Y的信息的不确定性减少的程度。</p>
+<h4 id="ID3算法"><a href="#ID3算法" class="headerlink" title="ID3算法"></a>ID3算法</h4><p>ID3算法的核心是在决策树各个结点上应用信息增益准则选择特征，递归地构建决策树。</p>
+<h4 id="C4-5算法"><a href="#C4-5算法" class="headerlink" title="C4.5算法"></a>C4.5算法</h4><p>C4.5算法与ID3算法相似，C4.5算法对ID3算法进行了改进。C4.5在生成的过程中，用信息增益比来选择特征。</p>
+<h4 id="CART算法"><a href="#CART算法" class="headerlink" title="CART算法"></a>CART算法</h4><p>CART假设决策树是二叉树，内部结点特征的取值为“是”和“否”。这样的决策树等价于递归地二分每个特征，将输入空间即特征空间划分为有限个单元。</p>
+<ul>
+<li>回归树的生成<br>  一个回归树对应着输入空间（即特征空间）的一个划分以及在划分的单元上的输出值。当输入空间的划分确定时，可以用平方误差最小的准则求解每个单元上的最优输出值。易知，单元上的最优输出值为单元上所有y的均值。<br><img src="/images/RegressionTree.png" alt="RegressionTree算法"></li>
+<li>分类树的生成<br><img src="/images/ClassificationTree.png" alt="ClassificationTree算法"></li>
+</ul>
+<h4 id="决策树的损失函数"><a href="#决策树的损失函数" class="headerlink" title="决策树的损失函数"></a>决策树的损失函数</h4><p><img src="/images/treeloss.png" alt="决策树的损失函数"><br>上图中C(T)表示模型对训练数据的预测误差，即模型与训练数据的拟合程度，|T|表示模型复杂度，参数$\alpha$控制两者之间的影响。<br><strong>上图定义的损失函数的极小化等价于正则化的极大似然估计。</strong></p>
+<h4 id="ID3、C4-5与CART算法的异同-（自我理解）"><a href="#ID3、C4-5与CART算法的异同-（自我理解）" class="headerlink" title="ID3、C4.5与CART算法的异同 （自我理解）"></a>ID3、C4.5与CART算法的异同 （自我理解）</h4><p><strong>相同：</strong> 双方都是以一个指标为特征选择原则递归的构建决策树<br><strong>不同：</strong> ID3使用的是信息增益，C4.5使用的是信息增益比，CART分类树使用的是基尼指数。<br>CART是颗二叉树，ID3、C4.5是多叉树。</p>
+<h3 id="二、连续与缺失值"><a href="#二、连续与缺失值" class="headerlink" title="二、连续与缺失值"></a>二、连续与缺失值</h3><h4 id="连续值"><a href="#连续值" class="headerlink" title="连续值"></a>连续值</h4><p>连续属性离散化技术。最简单的策略是采用二分法对连续属性进行处理。给定样本集D和连续属性a,假定a在D上出现了n个不同的取值，将这些值从小到大进行排序，记为{$a^1,a^2,…,a^n$}。基于划分点t可将D分为子集$D_t^-$和$D_t^+$，分别表示在属性a上取值不大于t的样本和在属性a上取值大于t的样本。对连续属性a,我们可考察包含n-1个元素的候选划分点集合<br>$$T_a =\lbrace \frac{a^i+a^{i+1}}{2}|1 \le i \le n-1 \rbrace$$<br>信息增益公式修改为下<br>$$Gain(D,a)=max\ Gain(D,a,t)$$<br>需要注意的是，与离散属性不同，若当前结点划分属性为连续属性，该属性还可作为其后代结点的划分属性。</p>
+<h4 id="缺失值处理"><a href="#缺失值处理" class="headerlink" title="缺失值处理"></a>缺失值处理</h4><p><img src="/images/treemissdata.png" alt="缺失值处理"></p>
+<h3 id="三、树的剪枝"><a href="#三、树的剪枝" class="headerlink" title="三、树的剪枝"></a>三、树的剪枝</h3><p>剪枝（pruning)是决策树学习算法对付“过拟合”的主要手段。决策树剪枝的基本策略有“预剪枝”和“后剪枝”。<br><strong>预剪枝</strong>是指在决策树生成过程中，对每个结点在划分前进行估计，若当前结点的划分不能带来决策树泛化性能提升，则停止划分并将当前结点标记为叶节点；<strong>后剪枝</strong>则是先从训练集生成一颗完整的决策树，然后自底向上地对非叶结点进行考察，若将该结点对应的子树替换为叶结点能带来决策树泛化性能提升，则将该子树替换为叶结点。<br><strong>预剪枝</strong>使得决策树的很多分支都没有“展开”，这不仅降低了过拟合的风险，还显著减少了决策树的训练时间开销和测试时间开销。但另一方面，有些分支的当前划分虽不能提升泛化性能、甚至可能导致泛化性能暂时下降，但在其基础上进行的后续划分却有可能导致性能显著提高；预剪枝基于“贪心”本质禁止这些分支展开，给预剪枝决策树带来了欠拟合的风险。<br><strong>后剪枝</strong>通常比预剪枝保留更多的分支。一般情况下，后剪枝决策树的欠拟合风险小，泛化性能往往优于预剪枝决策树。但后剪枝其训练时间开销比预剪枝要大得多。<br>如何判断决策树泛化性能是否提升呢？一种做法是预留一部分数据用作“验证集”，并用验证集整体的分类误差率进行性能评估。若剪枝后的分类误差率较剪枝前下降了，则进行剪枝。另一种做法是后剪枝时，递归地从树地叶结点向上回缩，比较剪枝前和剪枝后的整体损失函数，若下降则进行剪枝，将父节点变为新的叶结点。 </p>
+<h3 id="四、树的融合"><a href="#四、树的融合" class="headerlink" title="四、树的融合"></a>四、树的融合</h3><p>决策树通常被用到<a href="/2017/12/25/集成学习/">集成学习</a>里。下面就是常见的融合方法。</p>
+<h4 id="提升树（boosting-tree"><a href="#提升树（boosting-tree" class="headerlink" title="提升树（boosting tree)"></a>提升树（boosting tree)</h4><p>以决策树为基函数的提升方法称为提升树。对分类问题决策树是二叉分类树，对回归问题决策树是二叉回归数。针对不同问题的提升树学习算法，其主要区别在于使用的损失函数不同。包括用平方误差损失函数的回归问题，用指数损失函数的分类问题（个人理解：只能用于二分类，多分类不能转换为指数损失），以及用一般损失函数的一般决策问题（比如多分类）。    </p>
+<ul>
+<li>二类分类问题：提升树算法只需将AdaBoost中的基本分类器限制为二类分类树即可，可以说这时的提升树算法是AdaBoost算法的特殊情况。</li>
+<li>回归问题：<br><img src="/images/boostingtree_regress.png" alt="回归问题提升树"></li>
+</ul>
+<h4 id="梯度提升决策树（Gradient-Boosting-Decision-Tree"><a href="#梯度提升决策树（Gradient-Boosting-Decision-Tree" class="headerlink" title="梯度提升决策树（Gradient Boosting Decision Tree)"></a>梯度提升决策树（Gradient Boosting Decision Tree)</h4><p>提升树利用加法模型与前向分步算法实现学习的优化过程。当损失函数是平方损失和指数损失函数时，每一步优化时很简单的。但对一般损失函数而言，往往每一步优化并不容易。梯度提升决策树是利用最速下降法的近似方法，其关键是利用损失函数的负梯度在当前模型$(f(x)=f_{m-1}(x))$的值<br>$$-\frac{\partial L(y,f(x_i))}{\partial f(x_i)}$$<br>作为回归问题提升树中的残差近似值，拟合一个回归树。<br><img src="/images/GBDT.png" alt="梯度提升决策树"></p>
+<h4 id="随机森林（Random-Forest"><a href="#随机森林（Random-Forest" class="headerlink" title="随机森林（Random Forest)"></a>随机森林（Random Forest)</h4><p>随机森林是Bagging的一个扩展变体。RF在以决策树为基学习器构建Bagging集成的基础上，进一步在决策树的训练过程中引入了随机属性选择。具体来说，传统决策树在选择划分属性时实在当前节点的属性集合中选择一个最优属性；而在RF中，对基决策树的每个结点，先从该节点的属性集合中随机选择一个包含k个属性的子集，然后再从这个子集中选择一个最优属性用于划分。这里的参数k控制了随机性的引入程度。</p>
+<h3 id="五、多变量决策树"><a href="#五、多变量决策树" class="headerlink" title="五、多变量决策树"></a>五、多变量决策树</h3><p>多变量决策树中，非叶结点不再是仅是对某个属性，而是对属性的线性组合进行测试。多变量决策树的学习过程中，不是为每个非叶结点寻找一个最优划分属性，而是试图建立一个合适的线性分类器。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"><i class="fa fa-tag"></i> 机器学习</a>
+          
+            <a href="/tags/决策树/" rel="tag"><i class="fa fa-tag"></i> 决策树</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/25/集成学习/" rel="next" title="集成学习总揽">
+                <i class="fa fa-chevron-left"></i> 集成学习总揽
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/24/面试要点/" rel="prev" title="面试要点">
+                面试要点 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/cat.JPG"
+                alt="Feng weisi" />
+            
+              <p class="site-author-name" itemprop="name">Feng weisi</p>
+              <p class="site-description motion-element" itemprop="description">谦以待人，虚以待物</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#综述"><span class="nav-number">1.</span> <span class="nav-text">综述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-决策树算法"><span class="nav-number">1.1.</span> <span class="nav-text">一.决策树算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#特征选择准则"><span class="nav-number">1.1.1.</span> <span class="nav-text">特征选择准则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ID3算法"><span class="nav-number">1.1.2.</span> <span class="nav-text">ID3算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C4-5算法"><span class="nav-number">1.1.3.</span> <span class="nav-text">C4.5算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CART算法"><span class="nav-number">1.1.4.</span> <span class="nav-text">CART算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#决策树的损失函数"><span class="nav-number">1.1.5.</span> <span class="nav-text">决策树的损失函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ID3、C4-5与CART算法的异同-（自我理解）"><span class="nav-number">1.1.6.</span> <span class="nav-text">ID3、C4.5与CART算法的异同 （自我理解）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、连续与缺失值"><span class="nav-number">1.2.</span> <span class="nav-text">二、连续与缺失值</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#连续值"><span class="nav-number">1.2.1.</span> <span class="nav-text">连续值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缺失值处理"><span class="nav-number">1.2.2.</span> <span class="nav-text">缺失值处理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、树的剪枝"><span class="nav-number">1.3.</span> <span class="nav-text">三、树的剪枝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、树的融合"><span class="nav-number">1.4.</span> <span class="nav-text">四、树的融合</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#提升树（boosting-tree"><span class="nav-number">1.4.1.</span> <span class="nav-text">提升树（boosting tree)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#梯度提升决策树（Gradient-Boosting-Decision-Tree"><span class="nav-number">1.4.2.</span> <span class="nav-text">梯度提升决策树（Gradient Boosting Decision Tree)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#随机森林（Random-Forest"><span class="nav-number">1.4.3.</span> <span class="nav-text">随机森林（Random Forest)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、多变量决策树"><span class="nav-number">1.5.</span> <span class="nav-text">五、多变量决策树</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feng weisi</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
