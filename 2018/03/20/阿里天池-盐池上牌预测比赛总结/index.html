@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1.比赛大意选手利用历史某3年的汽车日上牌数据，预测某2年每天的汽车上牌数。初赛将挑选出5个汽车品牌，给出这些品牌每天的上牌数，当天是星期几，来预测5个汽车品牌未来每天的上牌总数。复赛将挑选出10个汽车品牌，仍旧给出品牌每天的上牌数，当天是星期几，来预测10个汽车品牌未来每天的上牌数。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里天池-盐池上牌预测比赛总结">
+<meta property="og:url" content="http://yoursite.com/2018/03/20/阿里天池-盐池上牌预测比赛总结/index.html">
+<meta property="og:site_name" content="Wei Si Blog :)">
+<meta property="og:description" content="1.比赛大意选手利用历史某3年的汽车日上牌数据，预测某2年每天的汽车上牌数。初赛将挑选出5个汽车品牌，给出这些品牌每天的上牌数，当天是星期几，来预测5个汽车品牌未来每天的上牌总数。复赛将挑选出10个汽车品牌，仍旧给出品牌每天的上牌数，当天是星期几，来预测10个汽车品牌未来每天的上牌数。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/stack.png">
+<meta property="og:updated_time" content="2018-03-21T08:42:53.117Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="阿里天池-盐池上牌预测比赛总结">
+<meta name="twitter:description" content="1.比赛大意选手利用历史某3年的汽车日上牌数据，预测某2年每天的汽车上牌数。初赛将挑选出5个汽车品牌，给出这些品牌每天的上牌数，当天是星期几，来预测5个汽车品牌未来每天的上牌总数。复赛将挑选出10个汽车品牌，仍旧给出品牌每天的上牌数，当天是星期几，来预测10个汽车品牌未来每天的上牌数。">
+<meta name="twitter:image" content="http://yoursite.com/images/stack.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/20/阿里天池-盐池上牌预测比赛总结/"/>
+
+
+
+
+
+  <title>阿里天池-盐池上牌预测比赛总结 | Wei Si Blog :)</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wei Si Blog :)</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不困于心，不乱于情，不念过去，不畏将来</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/20/阿里天池-盐池上牌预测比赛总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Feng weisi">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/cat.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wei Si Blog :)">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">阿里天池-盐池上牌预测比赛总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-20T19:23:22+08:00">
+                2018-03-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1-比赛大意"><a href="#1-比赛大意" class="headerlink" title="1.比赛大意"></a>1.比赛大意</h2><p>选手利用历史某3年的汽车日上牌数据，预测某2年每天的汽车上牌数。初赛将挑选出5个汽车品牌，给出这些品牌每天的上牌数，当天是星期几，来预测5个汽车品牌未来每天的上牌总数。复赛将挑选出10个汽车品牌，仍旧给出品牌每天的上牌数，当天是星期几，来预测10个汽车品牌未来每天的上牌数。<br><a id="more"></a></p>
+<h2 id="2-详细做法"><a href="#2-详细做法" class="headerlink" title="2.详细做法"></a>2.详细做法</h2><ol>
+<li><p>特征提取</p>
+<ul>
+<li>将脱敏日期反推回真实日期（通过节假日放假情况推断），并将日期转换为三个字段年、月、日</li>
+<li>增加一个字段用来记录日子类型，比如0：工作日，1：休息日，2：节假日</li>
+<li>从数据可以看出一般节假日过后的第一天上牌的数量会猛增，认为是连续的放假使上牌量累计，所以增加一个字段来表示当天与上一个工作日隔了几天。</li>
+<li>天气，认为天气会影响人买车从而影响上牌（复试要求不得使用外部数据）</li>
+</ul>
+</li>
+<li><p>模型建立</p>
+<ul>
+<li>ARIMA：效果不佳+不怎么会使用</li>
+<li>prophet：facebook的时间序列模型，效果一般，使用简单，可视化强，可以很清楚的看到年关系，月关系，星期关系</li>
+<li>GBM,XGBOOST,LIGHTGBM：最终比赛决定使用这三个监督模型</li>
+</ul>
+</li>
+<li><p>模型融合</p>
+<ul>
+<li>平均融合，加权融合：根据模型好坏融合</li>
+<li>stacking：初次使用，没有经验，失误了，错误率大增，遗憾</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-模型解释"><a href="#3-模型解释" class="headerlink" title="3.模型解释"></a>3.模型解释</h2><p>1.fbprophet<br>简单代码如下，更多细节参考官网<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd </span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np </span><br><span class="line"><span class="keyword">from</span> fbprophet <span class="keyword">import</span> Prophet</span><br><span class="line"></span><br><span class="line"><span class="comment"># fbprophet指接受两列数据DS、Y,其中DS是日期。</span></span><br><span class="line">df = pd.read_csv(<span class="string">'../examples/example_wp_peyton_manning.csv'</span>)</span><br><span class="line">df[<span class="string">'y'</span>] = np.log(df[<span class="string">'y'</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拟合训练集</span></span><br><span class="line">m = Prophet </span><br><span class="line">m.fit(df)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 此函数可以生成训练数据后periods天的日期（包含训练数据），其实就是个series，值是日期</span></span><br><span class="line">future = m.make_future_dataframe(periods=<span class="number">365</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 预测 yhat表示预测的值，yhat_lower预测的最低值，yhat_upper是预测的最高值，他相当于预测了一个区间</span></span><br><span class="line">forecast = m.predict(future)</span><br><span class="line">forecast[[<span class="string">'ds'</span>, <span class="string">'yhat'</span>, <span class="string">'yhat_lower'</span>, <span class="string">'yhat_upper'</span>]].tail()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 画出训练数据和预测数据</span></span><br><span class="line">m.plot(forecast)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 画出数据趋势，月相关性，星期相关性</span></span><br><span class="line">m.plot_componets(forecast)</span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<p>2.GBM<br>GBM的参数大致可以分为三类：    </p>
+<ol>
+<li>树特有的参数：<ul>
+<li>min_samples_split:表示一个结点分割需要的最小样本数</li>
+<li>min_samples_leaf:表示叶子结点需要的最小样本数</li>
+<li>min_weight_fraction_leaf:等价于min_samples_split，它是总体样本的百分比</li>
+<li>max_depth:树的最大高度</li>
+<li>max_leaf_nodes:一颗树中能包含的最大叶子结点个数</li>
+<li>max_features:做特征选择时所能考虑的最多特征数</li>
+</ul>
+</li>
+<li>提升操作参数：<ul>
+<li>learning_rate:学习率</li>
+<li>n_estimators:数的个数</li>
+<li>subsample:给每棵树多少的样本，百分比</li>
+</ul>
+</li>
+<li>其他参数：<ul>
+<li>loss:损失函数</li>
+<li>init:</li>
+<li>random_state:随机种子，模型复现</li>
+<li>verbose:模型拟合后要打印输出的类型</li>
+<li>warm_start:热启动</li>
+<li>presort:选择是否预分类去更快分割结点</li>
+</ul>
+</li>
+</ol>
+<p><strong>调参过程：</strong></p>
+<ol>
+<li>先选择一个较高的学习率learning_rate，通常选择0.1,对于不同问题一般是在0.05-0.2</li>
+<li>确定在当前学习率下最优的树的个数n_estimators，通常是40-70。如果最优值在20左右，那就需要尝试更小的学习率，如果最优值比100高，那就需要尝试更高的学习率</li>
+<li>调整树特有的参数<br> 参数初始化：min_samples_split = 500, min_sample_leaf=50, max_depth=8, max_features=’sqrt’, subsample=0.8    <ol>
+<li>调整树最大高度max_depth(通常是5-8)和最小样本数分割num_samples_split(通常是总样本数的0.5%-1%)</li>
+<li>调整叶子结点所要包含的最小样数min_samples_leaf(30-100)</li>
+<li>调整分割最大特征数max_feature</li>
+<li>调整subsample(0.5-0.9)</li>
+</ol>
+</li>
+<li>降低学习率learning_rate，成比例地提高树的个数n_estimators      </li>
+</ol>
+<p><strong>示例如下：</strong></p>
+<ol>
+<li>先确定learning_rate为0.1 </li>
+<li>在n_estimators:range(20,81,10)中搜寻最优值,比如60</li>
+<li>‘max_depth’:range(5,16,2), ‘min_samples_split’:range(200,1001,200)</li>
+<li>‘min_samples_leaf’:range(30,71,10)</li>
+<li>‘max_features’:range(7,20,2)</li>
+<li>‘subsample’:[0.6,0.7,0.75,0.8,0.85,0.9]</li>
+<li>调整learning_rate和n_estimators,固定其他值，比如调整learning_rate为0.05，则n_estimators成比例增加为120。</li>
+</ol>
+<p>上述参数选择过程可以用GridSearchCV函数实现<br><a href="https://www.analyticsvidhya.com/blog/2016/02/complete-guide-parameter-tuning-gradient-boosting-gbm-python/" target="_blank" rel="noopener">GBM参考文章</a></p>
+<p>3.XGBOOST<br>XGBOOST的参数大致可以分为三类：</p>
+<ol>
+<li><p>普通参数：</p>
+<ul>
+<li>booster[default=gbtree]:基模型,分为gbtree和gblinear，通常gbtree效果更好</li>
+<li>silent[default=0]:1表示不输出信息</li>
+<li>nthread[default to maximun number of threads available if not set]:用于并行处理的线程数</li>
+</ul>
+</li>
+<li><p>提升参数： </p>
+<ul>
+<li>eta[default=0.3]:类似GBM的learning_rate，通常是0.01-0.2 </li>
+<li>min_child_weight[default=1]:类似min_child_leaf，叶子结点最少需要多少样本权重和。（个人理解：因为XGBOOST可以处理缺失值，所以联系决策树对缺失值的处理，就能想到为什么这里是权重和）</li>
+<li>max_depth[default=6]:树最大高度，通常是3-10</li>
+<li>max_leaf_nodes:一颗树中能包含的最大叶子结点个数</li>
+<li>gamma[default=0]:分割后loss减小&gt;gamma才分割</li>
+<li>max_delta_step[default=0]:不清楚，通常用不到</li>
+<li>subsample[default=1]:给每棵树多少的样本，百分比</li>
+<li>colsample_bytree[default=1]:类似于GBM的max_features。给每棵树多少的特征</li>
+<li>colsample_bylevel[default=1]:每次分割用多少的特征</li>
+<li>lambda[default=1]:L2正则化</li>
+<li>alpha[default=0]:L1正则化</li>
+<li>scale_pos_weight[default=1]:帮助类别不均衡收敛</li>
+</ul>
+</li>
+<li><p>学习任务参数</p>
+<ul>
+<li>objective[default=reg:linear]:损失函数-binary:logitic,multi:softmax,multi:softprob</li>
+<li>eval_metric[default according to objective]:用于验证集的度量标准-rmse,mae,logloss,error,merror,mlogloss,auc</li>
+<li>seed:随机种子，模型复现</li>
+</ul>
+</li>
+</ol>
+<p>sklearn对XGBOOST做了包装XGBClassifier，加入了n_estimators。相关参数做了改变：</p>
+<ul>
+<li>eta-&gt;learning_rate</li>
+<li>lambda-&gt;reg_lambda</li>
+<li>alpha-&gt;reg_alpha</li>
+</ul>
+<p><strong>调参过程：</strong></p>
+<ol>
+<li>选择一个较高的学习率,通常是0.1,区间是0.05-0.3。确定当前学习率下最优树的个数</li>
+<li>调整树特有的参数(初始化：max_depth=5,min_child_weight=1,gamma=0,subsample=0.8,colsample_bytree=0.8,)<ul>
+<li>调整max_depth(3-10)和min_child_weight(1-15)</li>
+<li>调整gamma(视情况而定0-1)</li>
+<li>调整subsample、colsample_bytree(0.5-0.9)</li>
+</ul>
+</li>
+<li>调整正则化参数lambda,alpha(0,0.0001,0.001,0.01,0.05,1,10)</li>
+<li>降低学习率learning_rate，成比例地提高树的个数n_estimators</li>
+</ol>
+<p><a href="https://www.analyticsvidhya.com/blog/2016/03/complete-guide-parameter-tuning-xgboost-with-codes-python/" target="_blank" rel="noopener">XGBOOST参考文章</a></p>
+<h2 id="4-stack"><a href="#4-stack" class="headerlink" title="4.stack"></a>4.stack</h2><p><img src="/images/stack.png" alt="stack"><br>对于每一轮的5-fold,Model1都要做满5次的训练和预测。<br>假设Train Data有1000行（对应图中的上层部分）。<br>每一次的fold，都会产生800行的小train,200行的小test。我们用Model1来训练800行的小train,然后预测200行小test。预测的结果是长度为200的预测值。<br>这样的动作走5次！ 长度为200 的预测值 X 5 = 1000 预测值，刚好和Train data长度吻合。这个1000预测值是Model1产生的，我们先存着，因为，一会让它将是第二层模型的训练来源。<br><strong>重点：</strong>这一步产生的预测值我们可以转成 1000 X 1 （1000 行，1列），记作 P1 (大写P)</p>
+<p>接着说Test Data有400行。(对应图中的下层部分）<br>每1次的fold，800行小train训练出来的Model1要去预测我们全部的Test Data（全部！因为Test Data没有加入5-fold，所以每次都是全部！）。此时，Model 1的预测结果是长度为400的预测值。<br>这样的动作走5次！我们可以得到一个 5 X 400 的预测值矩阵。然后我们根据行来就平均值，最后得到一个1 X 400 的平均预测值。<br><strong>重点：</strong>这一步产生的预测值我们可以转成 400 X 1 （400行，1列），记作 p1 (小写p)</p>
+<p>对第一层其他模型也做相同操作。如果总共有3个模型，则Train Data的预测矩阵为1000 X 3(P1,P2,P3)和Test Data预测值矩阵400 X 3(p1,p2,p3)。</p>
+<p>到第二层：<br>来自Train Data的预测值矩阵 1000 X 3 作为你的Train Data，训练第二层的模型<br>来自Test Data预测值矩阵 400 X 3 就是你的Test Data，用训练好的模型来预测他们。</p>
+<p><a href="https://zhuanlan.zhihu.com/p/26890738" target="_blank" rel="noopener">stack参考文章</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/20/CNN网络结构模型/" rel="next" title="CNN网络结构模型">
+                <i class="fa fa-chevron-left"></i> CNN网络结构模型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/12/机器学习面试/" rel="prev" title="机器学习面试">
+                机器学习面试 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/cat.JPG"
+                alt="Feng weisi" />
+            
+              <p class="site-author-name" itemprop="name">Feng weisi</p>
+              <p class="site-description motion-element" itemprop="description">谦以待人，虚以待物</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-比赛大意"><span class="nav-number">1.</span> <span class="nav-text">1.比赛大意</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-详细做法"><span class="nav-number">2.</span> <span class="nav-text">2.详细做法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-模型解释"><span class="nav-number">3.</span> <span class="nav-text">3.模型解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-stack"><span class="nav-number">4.</span> <span class="nav-text">4.stack</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Feng weisi</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>

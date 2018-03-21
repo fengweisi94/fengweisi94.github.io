@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="谦以待人，虚以待物">
+<meta name="description" content="记录一些用到的学到的著名卷积网络结构模型">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CNN网络结构模型">
 <meta property="og:url" content="http://yoursite.com/2018/03/20/CNN网络结构模型/index.html">
 <meta property="og:site_name" content="Wei Si Blog :)">
-<meta property="og:description" content="谦以待人，虚以待物">
+<meta property="og:description" content="记录一些用到的学到的著名卷积网络结构模型">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-20T08:27:04.219Z">
+<meta property="og:updated_time" content="2018-03-20T11:09:33.844Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CNN网络结构模型">
-<meta name="twitter:description" content="谦以待人，虚以待物">
+<meta name="twitter:description" content="记录一些用到的学到的著名卷积网络结构模型">
 
 
 
@@ -329,7 +329,87 @@
       
 
       
-        
+        <p>记录一些用到的学到的著名卷积网络结构模型<br><a id="more"></a></p>
+<h2 id="1-Alexnet"><a href="#1-Alexnet" class="headerlink" title="1.Alexnet"></a>1.Alexnet</h2><p><strong>第一层：</strong>     </p>
+<ul>
+<li>卷积-输入数据： 227*227*3经过96个大小为11,步长为4的卷积核变成55</li>
+<li>RELU</li>
+<li>池化-输入数据：55*55*96经过大小为3,步长为2的池化操作变成27</li>
+<li>归一化      </li>
+</ul>
+<p><strong>第二层：</strong>      </p>
+<ul>
+<li>卷积-输入数据：27*27*96经过256个大小为5,pad为2,步长为1的卷积核变成27</li>
+<li>RELU </li>
+<li>池化-输入数据：27*27*256经过大小为3，步长为2的池化操作变成13</li>
+<li>归一化     </li>
+</ul>
+<p><strong>第三层和第四层：</strong>     </p>
+<ul>
+<li>卷积-输入数据：13*13*256经过384个大小为3,pad为1,步长为1的卷积核变成13</li>
+<li>RELU      </li>
+</ul>
+<p><strong>第五层：</strong>      </p>
+<ul>
+<li>卷积-输入数据：13*13*384经过256个大小为3,pad为1,步长为1的卷积核变成13</li>
+<li>RELU</li>
+<li>池化-输入数据：13*13*256经过大小为3，步长为2的池化操作变成6      </li>
+</ul>
+<p><strong>第六层和第七层：</strong>      </p>
+<ul>
+<li>4096个结点的全连接层      </li>
+</ul>
+<p><strong>第八层：</strong>      </p>
+<ul>
+<li>输出层，softmax,1000个结点</li>
+</ul>
+<h2 id="2-VGG16"><a href="#2-VGG16" class="headerlink" title="2.VGG16"></a>2.VGG16</h2><p><strong>第一部分：</strong></p>
+<ul>
+<li>输入数据：224，224，3</li>
+<li>卷积：64个大小为3，pad为1，步长为1</li>
+<li>卷积：64个大小为3，pad为1，步长为1</li>
+<li>池化：大小为2，步长为2</li>
+</ul>
+<p><strong>第二部分：</strong></p>
+<ul>
+<li>输入数据：112，112，64</li>
+<li>卷积：128个大小为3，pad为1，步长为1</li>
+<li>卷积：128个大小为3，pad为1，步长为1</li>
+<li>池化：大小为2，步长为2</li>
+</ul>
+<p><strong>第三部分：</strong></p>
+<ul>
+<li>输入数据：56，56，128</li>
+<li>卷积：256个大小为3，pad为1，步长为1</li>
+<li>卷积：256个大小为3，pad为1，步长为1</li>
+<li>卷积：256个大小为3，pad为1，步长为1</li>
+<li>池化：大小为2，步长为2</li>
+</ul>
+<p><strong>第四部分：</strong></p>
+<ul>
+<li>输入数据：28，28，256</li>
+<li>卷积：512个大小为3，pad为1，步长为1</li>
+<li>卷积：512个大小为3，pad为1，步长为1</li>
+<li>卷积：512个大小为3，pad为1，步长为1</li>
+<li>池化：大小为2，步长为2</li>
+</ul>
+<p><strong>第五部分：</strong></p>
+<ul>
+<li>输入数据：14，14，512</li>
+<li>卷积：512个大小为3，pad为1，步长为1</li>
+<li>卷积：512个大小为3，pad为1，步长为1</li>
+<li>卷积：512个大小为3，pad为1，步长为1</li>
+<li>池化：大小为2，步长为2</li>
+</ul>
+<p>把矩阵变成向量    </p>
+<p><strong>第六部分：</strong></p>
+<ul>
+<li>输入数据：25088</li>
+<li>全连接：4096</li>
+<li>全连接：4096 </li>
+<li>输出层：softmax，1000</li>
+</ul>
+
       
     </div>
     
@@ -363,8 +443,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/12/机器学习面试/" rel="prev" title="机器学习面试">
-                机器学习面试 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/20/阿里天池-盐池上牌预测比赛总结/" rel="prev" title="阿里天池-盐池上牌预测比赛总结">
+                阿里天池-盐池上牌预测比赛总结 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -415,8 +495,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -435,7 +524,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -482,6 +571,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Alexnet"><span class="nav-number">1.</span> <span class="nav-text">1.Alexnet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-VGG16"><span class="nav-number">2.</span> <span class="nav-text">2.VGG16</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
